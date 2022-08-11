@@ -1,0 +1,113 @@
+继承：基于已有的类创建新的类。
+
+*类、超类和子类：
+    *定义子类：
+	     *用关键字extends表示继承：public class Manager extends Employee
+		                           {
+	                                    added methods and fields;							   
+								   }
+		  extends表明正在构造的新类派生于一个已存在的类，这个已存在的类称为超类、父类、基类，新类为子类。
+		  子类比超类拥有的功能更多
+	*覆盖方法：
+          有时超类中的有些方法对子类不一定适用，为此，需要提供一个新的方法来覆盖超类中的这个方法：
+          用关键字super可以在子类里调用超类中的方法，从而能够访问超类中定义的私有字段。
+    *子类构造器：
+          *用关键字super,如：super(name,salary,year,month,day)的意思是调用超类中的带有这些参数的构造器。
+	*多态：
+	      *继承关系的一种表述是替换原则，它指出程序中出现超类对象的任何地方都可以使用子类对象替换
+		            *例如：可以将子类的对象赋给超类变量
+		  *对象变量是多态的。
+		  *子类引用的数组可以转换成超类引用的数组，但尽量不要这么做
+	*虚拟机调用方法的途径：
+	      *静态绑定：针对private、static、final方法
+		  *动态绑定：虚拟机先为每个类计算一个方法表，查找表时调用相应方法。
+		  *在覆盖一个方法的时候，子类方法不能低于超类方法的可见性，超类方法是public则子类方法也得是public
+	*阻止继承：
+	      *final类：不允许扩展的类，用于阻止人们利用该类定义新的子类。
+		  *final方法：子类不能覆盖这个final定义的方法
+	*强制类型转换：
+	      *只能在继承层次内进行强制类型转换
+		  *在将超类强制转换成子类之前，应该用instanceof进行检查。
+	*抽象类：
+	      *有些位于上层的类更具有一般性，更加抽象，对于这种类，可以利用关键字abstract
+		  *一个abstract的类不能创建这个类的对象
+		  *可以定义一个抽象类的对象变量，但是这个变量只能引用非抽象子类的对象。
+	*受保护访问：
+	      *希望限制超类中的某个方法只允许子类访问，或者希望允许子类的方法访问超类的某个字段，
+		   为此，需将这类方法或字段声明为protected。
+		  *保护字段只能由同一个包中的类访问。
+	*访问修饰符总结：
+	      *private——仅对本类可见
+		  *public——对外部完全可见
+		  *protected——对本包和所有子类可见
+		  *默认——对本包可见
+
+*Object类——所有类的超类：
+    *Object类型的变量：使用Object类型的变量可以引用任何类型的对象。
+	*equals方法：
+	      *以Employee类举例： public boolean equals(Object otherObject)
+		                      {
+							      if(this == otherObject) return true;   //a quik test to see if the objects are identical
+								  if(otherObject == null) return false;  //must return false if the explicit parameter is null
+                                  
+                                  if(getClass()!=otherObject.getClass()) return false;
+                                  //now we know otherObject is a non-null Employee;
+								  Employee other=(Employee) otherObject;
+                                  return Objects.equals(name,other.name)
+                                         &&salary==other.salary								  
+								         &&Objects.equals(hireDay,other.hireDay);
+							  }
+		  *Objects.equals(a,b)方法：如果a,b皆为null，则方法返回true；如果其中一个参数为null，方法返回null；如果两个参数都不为null，则调用a.equals(b);
+		  *在子类中定义equals方法时，首先调用超类的equals，然后再比较子类中的特殊实例字段：
+		                      public boolean equals(Object otherObject)
+							  {
+							      if(!super.equals(otherObject)) return false;
+							      Manager other= (Manager) otherObject;
+							      return bonus==other.bonus;
+							  }
+		  *Arrays.equals(xxx[] a,xxx[] b)方法：比较任意两个数组是否完全一致，数组类型可以是基本类型或Object类。
+	*可以使用@Override 来标记要覆盖超类方法的那些子类方法，以便于检测可能发生的错误。				  
+	*hashCode方法：
+          *如果重新定义了equals方法，就必须为用户可能插入散列表的对象重新定义hashCode方法。
+		  *以Employee类举例： public int hashCode()
+		                      {
+							     return 7*Objects.hashCode(name)
+							            +11*Double.hashCode(salary)
+							            +13*Objects.hashCode(hireDay);
+							  }
+							  更好的做法：public int hashCode()
+							              {
+										      return Objects.hash(name,salary,hireDay); //*****需要组合多个散列值时，Objects.hash方法是最佳选择。
+										  }
+		  *equals与hashCode的定义必须相容：如果x.equals(y)返回true，则x.hashCode()就必须与y.hashCode()返回相同的值。				  
+		  *Arrays.hashCode()方法计算一个数组散列码，由数组元素的散列码组成				  
+	*toString方法：
+          *返回格式：类的名字，随后是一对方括号括起来的字段值。如：java.awt.Point[x=10,y=20];
+                     最好通过getClass().getName() 来获得类名的字符串；		  
+		  *子类toString方法：return super.toString + “子类实例字段”
+          ******只要对象与一个字符串通过操作符"+"连接起来，java编译器就会自动地调用toString方法来获得这个对象地字符串描述。
+                故，x.toString()与""+x是等价的
+          *对于数组，调用Arrays.toString()方法：如数组int[] a={1,2,3,4,5},则String s=Arrays.toString(a),s生成字符串"[1,2,3,4,5]"
+          *强烈建议为每个自定义的类添加toString方法。		  
+
+*泛型数组列表：ArrayList数组用于动态更改数组：
+    *ArrayList是一个有类型参数的泛型类，为了指定数组列表保存的元素对象的类型，需要用以下格式：ArrayList <Employee>
+	*声明数组列表：var staff=new ArrayList<Employee>();
+	      *add方法：用于将元素添加导数组列表中，staff.add(new Employee("Ma Tianyang",....));
+	      *ensureCapacity(...):先行分配数组列表的预空间，如：staff.ensureCapacity(100)
+	      *size()方法：返回数组列表中包含的实际元素个数。
+		  *确认不再向数组列表添加任何元素时可以调用trimToSize()方法来回收多余的存储空间。
+	****访问数组列表元素：//与访问数组元素有很大的区别
+	      *设置元素：stuff.set(i,....); //相当于a[i]=...
+		  *获取元素：staff.get(i);
+		  *在数组列表的中间或某处插入元素：add(index,key),位置index及之后的所有元素向后移动一个位置，插入新元素key
+		  *删除元素：remove(index),位于index之后的所有元素向前移动一个位置，且数组大小减1。
+	
+	
+		          
+							  
+							  
+							  
+							  
+							  
+							  

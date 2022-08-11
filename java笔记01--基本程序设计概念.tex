@@ -1,0 +1,105 @@
+Java basic knowledeg 
+01
+
+Const Number:
+   利用关键字 final 指示常量
+   如：final double MAX=13; final表示这个变量只能被赋值一次。
+   public static final .... 设置一个类常量，即可在一个类的多个方法中使用。
+
+枚举类型(Enumeration type)：
+    自定义枚举类型，限制变量取值范围，如：
+    enum Size{SMALL,MEDIUM,LARGE,EXTRA_LARGE}
+    Size s=Size.MEDIUM.
+
+Math function:
+Math.function_name(type_name);
+如：Math.sqrt(x) 计算平方根
+    Math.pow(x,a),计算x的a次方
+    Math.floorMod(position+adjustment,12)，得到一个0-11之间的数
+    Math.exp()
+    Math.log10()
+    Math.PI,Math.E,为两个常量，无限接近π和e。
+
+String preliminary:
+*提取子串： String greeting="Hello";
+          String s=greeting.substring(0,3);
+          (s=="Hel")
+string_name.substring(a,b) a为起始位置，b为字符个数
+*拼接：利用+号将两个字符串拼接（当讲一个字符串与非字符串的值进行拼接时，后者会转换成字符串）
+*join: 用一个界定符分隔多个字符串  String.join("qualifier","string_name1","string_name2",.....);
+                                               qualifier字符串为指定的界定符，需放在首位
+*repeat: String repeated="Java".repeat(3); // repeated=="JavaJavaJava";
+*检查字符串是否相等：s.equals(t),检查字符串s与t是否一致，若相等返回true，否则返回false。
+ (若想比较的是否不区分大小写，可利用s.equalsIgnoreCase(t) )  
+ (一定不要使用==来比较)
+*空串与NULL串：（注意空串和NULL串是不一样的概念）
+ 检查空串：if(str.length())或if(str.equals(""))
+ 检查NULL串：if(str==NULL)
+*定位代码单元：s.charAt(n); 如：char first="Hello".charAt(0),则first='H';
+*比较：string1.compareTo(string2),按照字典序，如果string1在string2前面则返回一个负数，相等返回0，否则返回一个正数
+***构建字符串：
+   StringBuilder类与StringBuffer类
+   StringBuilder string= new StringBuilder(10); //构建10字符内存的空串
+   string.append("substr"); 在string尾部加入字符串substr(类比于c中的strcat);
+   string.insert(1,"Java"); 在1这个位置插入字符串Java
+   string.delete(a,b); //删除string中[a,b-1]的字符
+
+输入与输出
+*Scanner类：定义在java.util.*包中
+    构建Scanner对象：Scanner in=new Scanner(System.in);
+    in.nextline()——读取一行
+    in.next()——读取一个单词(以空格作为分隔符)
+    in.nextInt()——读取一个整数
+*格式化输出：System.out.printf
+*文件输入与输出：
+    输入：构建Scanner对象：Scanner in=new Scanner(Path.of(FILE_NAME),StandardCharsets.UTF_8);
+    输出：构造PrintWrite对象：PrintWrite out=new PrintWrite(FILE_NAME,StandardCharsets.UTF_8);
+    (System.getProverty(FILE_NAME),找到目录的位置)；(StandardCharsets.UTF_8为常用字符编码，但不同机器、网站所用的字符编码可能不同）(PrintWrite类定义在java.io.*包中）
+
+控制流程：
+*块作用域：块是指由若干条java语句组成的语句，并用一对大括号括起来。块确定了变量的作用域。
+          不能在嵌套的两个块中声明同名的变量。
+*带标签的break语句：将任意命名的标签放在希望跳出的最外层循环之前，且标签后紧跟一个冒号。
+
+大数：
+*java.math包中的两个类：BigInteger,BigDecimal
+      将普通的数值转换为大数：BigInteger a=Biginteger.valueof(100);
+      BigInteger a=new BigInteger("1231441241264364657889");
+*大数的算术运算符：
+      加法：add
+      乘法：multiply
+      除法：divide
+
+数组：
+*定义：int[] a; 
+*初始化：int[] a=new int[100]; //一旦创建，则无法再改变长度（若想改变需用array list数据结构）
+(在java中，允许有长度为0的数组)
+*for each循环：（该循环遍历会遍历数组中的每个元素，当要处理所有数组元素时，该循环相比传统for循环更简洁）
+     for(variable:collection) statement   variable为一个临时定义的变量，collection这一表达式必须是一个数组或实现了Iterable接口的类对象。
+     如：for(int element:a)
+         {
+             System.out.println(element);
+          }
+     打印数组a中的每一个元素，且一个元素占一行
+*数组拷贝：所有值拷贝：Arrays.copyOf(array_name,length); //这个方法也可以用来增加数组的大小
+*数组排序：Arrays.sort();
+*其他方法：
+     static void fill(xxx[] a,xxx v); 将数组a中所有数据元素置为v
+     static int binarySearch(xxx[] a,int start,int end,xxx v);
+     static boolean equals(xxx[] a,xxx[] b);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
